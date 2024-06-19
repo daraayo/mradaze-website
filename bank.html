@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Registration</title>
+    <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+    
+    <form class="wrapper" id="registration-form">
+        
+        <div class="account-type-container">
+            <label for="account-type">Account Type</label>
+            <div class="dropdown">
+                <select id="account-type" name="account-type" required>
+                    <option value="">Select account type</option>
+                    <option value="non-nigerian">Non-Nigerian</option>
+                    <option value="nigerian">Nigerian</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="nigerian-banks" style="display: none;">
+            <label for="bank">Bank:</label>
+            <select id="bank" name="bank">
+                <option value="">Select bank</option>
+                <option value="access-bank">Access Bank</option>
+                <option value="ecobank">Ecobank</option>
+                <option value="fidelity-bank">Fidelity Bank</option>
+                <option value="first-bank">First Bank</option>
+                <option value="gtbank">Guaranty Trust Bank (GTBank)</option>
+                <option value="polaris-bank">Polaris Bank</option>
+                <option value="stanbic-ibtc">Stanbic IBTC Bank</option>
+                <option value="sterling-bank">Sterling Bank</option>
+                <option value="union-bank">Union Bank</option>
+                <option value="uba">United Bank for Africa (UBA)</option>
+                <option value="wema-bank">Wema Bank</option>
+                <option value="zenith-bank">Zenith Bank</option>
+            </select>
+        </div>
+        </div>
+        
+
+        <button type="submit" class="submit">Continue</button>
+    </form>
+
+    <script>
+        const accountTypeSelect = document.getElementById('account-type');
+        const nigerianBanksDiv = document.getElementById('nigerian-banks');
+        const registrationForm = document.getElementById('registration-form');
+
+        accountTypeSelect.addEventListener('change', function() {
+            if (this.value === 'nigerian') {
+                nigerianBanksDiv.style.display = 'block';
+            } else {
+                nigerianBanksDiv.style.display = 'none';
+            }
+        });
+
+        registrationForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const accountType = document.getElementById('account-type').value;
+            const bank = document.getElementById('bank').value;
+
+            if (accountType === 'nigerian' && bank !== '') {
+                window.location.href = 'pay.html';
+            } else if (accountType === 'non-nigerian') {
+                window.location.href = 'pay.html';
+            } else {
+                alert('Please select an account type and a bank (if Nigerian).');
+            }
+        });
+    </script>
+</body>
+</html>

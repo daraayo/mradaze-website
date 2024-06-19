@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Payment-Page</title>
+    <link rel="stylesheet" href="style3.css">
+</head>
+<body>
+    <form id="payment-form">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="account-number" class="bold">Account Number</label>
+                <input type="text" id="account-number" name="account-number" required>
+            </div>
+            <div class="form-group">
+                <label for="account-name" class="bold">Account Name</label>
+                <input type="text" id="account-name" name="account-name" required>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="bvn" class="bold">BVN</label>
+                <input type="text" id="bvn" name="bvn" required>
+            </div>
+            <div class="form-group">
+                <label for="swift-code" class="bold">Swift Code</label>
+                <input type="text" id="swift-code" name="swift-code" required>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="sort-code" class="bold">Sort Code</label>
+                <input type="text" id="sort-code" name="sort-code" required>
+            </div>
+            <div class="form-group">
+                <label for="customer-id" class="bold">Customer ID</label>
+                <input type="text" id="customer-id" name="customer-id" required>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="email" class="bold">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone-number" class="bold">Phone Number</label>
+                <input type="tel" id="phone-number" name="phone-number" required>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="amount" >Amount</label>
+                <input type="number" id="amount" name="amount" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="3" required></textarea>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <input type="checkbox" id="remember" name="remember">
+                <label for="remember">Remember this account next time</label>
+            </div>
+            <div class="form-group">
+                <button type="submit">Submit</button>
+            </div>
+        </div>
+    </form>
+    <div class="popup-container">
+        <div class="popup">
+            <img src="404-tick.png" alt="">
+            <h2>Transaction Successful</h2>
+            <p id="popup-details"></p>
+            <button type="button">OK</button>
+        </div>
+    </div>
+    <script>
+      // Get the form and the submit button
+const form = document.getElementById('payment-form');
+const submitButton = form.querySelector('button[type="submit"]');
+
+// Add an event listener to the form's submit event
+form.addEventListener('submit', (event) => {
+    // Prevent the default form submission
+    event.preventDefault();
+
+    // Check if all form fields are filled out
+    const formFields = form.querySelectorAll('input, textarea');
+    let allFieldsFilled = true;
+    formFields.forEach(field => {
+        if (field.value.trim() === '') {
+            allFieldsFilled = false;
+        }
+    });
+
+    // If all fields are filled out, show the popup
+    if (allFieldsFilled) {
+        const popupContainer = document.querySelector('.popup-container');
+        const popupDetails = document.getElementById('popup-details');
+
+        // Get the form values
+        const accountNumber = document.getElementById('account-number').value;
+        const accountName = document.getElementById('account-name').value;
+        const description = document.getElementById('description').value;
+        const amount = document.getElementById('amount').value;
+        const transferName = 'John Doe'; // Replace with the actual transfer name
+
+        // Generate a random transaction PIN
+        const transactionPin = Math.floor(100000 + Math.random() * 900000);
+
+        // Update the popup details
+        popupDetails.innerHTML = `
+<p> <b>Amount</b>: ${amount}</p>
+<p><b>Description</b>: ${description}</p>
+<p><b>Account Number</b>: ${accountNumber}</p>
+<p><b>Account Name</b>: ${accountName}</p>
+<p><b>Transaction PIN</b>: ${transactionPin}</p>
+<p><b>Transferred to</b>: ${transferName}</p>
+<p><b>Submitted at:</b> <span id="dateTimeDisplay"></span></p>
+        `;
+
+        // Call the function to display the date and time
+        showDateTime();
+
+        popupContainer.style.display = 'flex';
+    } else {
+        alert('Please fill out all the fields.');
+    }
+});
+
+// Get the "OK" button inside the popup
+const okButton = document.querySelector('.popup button');
+
+// Add an event listener to the "OK" button
+okButton.addEventListener('click', () => {
+    // Hide the popup container
+    const popupContainer = document.querySelector('.popup-container');
+    popupContainer.style.display = 'none';
+
+    // Clear the form fields
+    form.reset();
+});
+
+// Function to display the date and time when the submit button was clicked
+function showDateTime() {
+    const currentDateTime = new Date();
+    const options = { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric'
+    };
+    const dateTimeString = currentDateTime.toLocaleString('en-US', options);
+    document.getElementById("dateTimeDisplay").textContent = dateTimeString;
+}
+    </script>
+</body>
+</html>

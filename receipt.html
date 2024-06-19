@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt Pop-up</title>
+    <style>
+        .receipt-popup {
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .receipt-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 30%;
+        }
+    </style>
+</head>
+<body>
+    <div class="receipt-popup">
+        <div class="receipt-content">
+            <h2>Payment Confirmation</h2>
+            <p id="receipt-details"></p>
+            <button id="close-receipt">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // Get the order data from the URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const order = {
+            id: urlParams.get('id'),
+            accountNumber: urlParams.get('accountNumber'),
+            amount: parseFloat(urlParams.get('amount')),
+            description: urlParams.get('description')
+        };
+
+        // Generate the receipt details
+        const receiptDetails = document.getElementById('receipt-details');
+        receiptDetails.textContent = `
+            Transaction ID: ${order.id}
+            Account Number: ${order.accountNumber}
+            Amount: $${order.amount.toFixed(2)}
+            Description: ${order.description}
+        `;
+
+        // Close the receipt pop-up when the close button is clicked
+        const closeReceiptBtn = document.getElementById('close-receipt');
+        closeReceiptBtn.addEventListener('click', () => {
+            window.close();
+        });
+    </script>
+</body>
+</html>
